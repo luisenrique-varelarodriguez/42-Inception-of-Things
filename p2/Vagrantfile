@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "generic/alpine318"
+  config.vm.synced_folder "./shared", "/vagrant_shared", create: false
+
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = false
+  
+    # Customize the amount of memory on the VM:
+    vb.memory = "2048"
+    vb.cpus = 1
+  end
+
+  config.vm.define "RobrodriS" do |server|
+    server.vm.network "private_network", ip: "192.168.56.110"
+    server.vm.hostname = "server"
+    server.vm.provision "shell", path: "config/server.sh"
+  end
+end
