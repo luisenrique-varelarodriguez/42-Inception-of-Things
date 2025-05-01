@@ -1,6 +1,8 @@
 #! /bin/sh
 
-ip addr add 192.168.56.111/24 broadcast 192.168.56.255 dev eth1
-ip link set dev eth1 up
 # install k3s in agent mode
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--flannel-iface=eth1" K3S_URL=https://192.168.56.110:6443 K3S_TOKEN_FILE=/vagrant_shared/token sh -
+curl -sfL https://get.k3s.io | \
+  INSTALL_K3S_EXEC="--flannel-iface=eth1" \
+  K3S_URL=https://192.168.56.110:6443 \
+  K3S_TOKEN_FILE=/vagrant_shared/token \
+  sh -

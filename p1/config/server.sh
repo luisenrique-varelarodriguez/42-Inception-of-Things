@@ -11,7 +11,8 @@ display_k3s_logs() {
 }
 
 # Install k3s
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--flannel-iface=eth1" sh -
+curl -sfL https://get.k3s.io |  \
+  INSTALL_K3S_EXEC="--flannel-iface=eth1" sh -
 
 # Wait for k3s to start
 echo "Waiting for K3s to start..."
