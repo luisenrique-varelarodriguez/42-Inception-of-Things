@@ -1,0 +1,20 @@
+global:
+  hosts:
+    domain: localhost
+    externalIP: ""
+
+certmanager:
+  install: false
+
+# Deactivate Let's Encrypt and auto TLS
+global:
+  ingress:
+    configureCertmanager: false
+    tls:
+      enabled: false
+
+nginx-ingress:
+  enabled: true
+
+gitlab-runner:
+  install: false

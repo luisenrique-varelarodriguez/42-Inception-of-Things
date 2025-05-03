@@ -47,3 +47,25 @@ kubectl apply -f /vagrant_shared/deployments/argo.yml
 
 # For manual app deployment
 # kubectl apply -n dev -f /vagrant_shared/app.yml
+
+# Install Git
+echo "Installing Git"
+apk add git
+
+# Install Helm
+echo "Installing Helm"
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Create GitLab namespace
+kubectl create namespace gitlab
+
+# Add GitLab Helm repo
+helm repo add gitlab https://charts.gitlab.io/
+helm repo update
+
+# Install GitLab using Helm
+echo "Installing GitLab"
+helm upgrade --install gitlab gitlab/gitlab \
+    --namespace gitlab \
+    --timeout 600s \
+    -f /vagrant_shared/gitlab-values.yaml
