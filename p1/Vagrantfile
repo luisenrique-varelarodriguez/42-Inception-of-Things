@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
       vb.name = "RobrodriS"
     end
 
-    server.vm.provision "shell", path: "config/server.sh"
+    server.vm.provision "shell", path: "scripts/server.sh"
   end
 
   config.vm.define "RobrodriSW" do |serverWorker|
@@ -34,6 +34,6 @@ Vagrant.configure("2") do |config|
       vb.name = "RobrodriSW"
     end
 
-    serverWorker.vm.provision "shell", path: "config/worker.sh"
+    serverWorker.vm.provision "shell", path: "scripts/worker.sh"
   end
 end
