@@ -27,15 +27,14 @@ k3d cluster create --agents 3 core -p "8080:8888@loadbalancer" # expose the load
 kubectl create namespace dev
 kubectl create namespace argocd
 
-# Create deployments
-# argocd 
+# Apply ArgoCD deployments
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # Wait for ArgoCD pods to be ready
 echo "Waiting for ArgoCD pods to be ready..."
 kubectl wait --for=condition=Ready pods --all -n argocd --timeout=600s
 
-# Set pass for argocd dashboard pass -> holasoyadmin
+# Set ArgoCD dashboard pass -> holasoyadmin
 sudo kubectl -n argocd patch secret argocd-secret \
   -p '{"stringData": {
     "admin.password": "$2a$12$gbR7bIATHJekG9kAW3pt4eoTeru957RpeotGGluQ5mS50wTm5bYU2",
