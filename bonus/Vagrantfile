@@ -11,8 +11,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false      # Display the VirtualBox GUI when booting the machine
-    vb.memory = "5000"
-    vb.cpus = 1
+    vb.memory = "12000"
+    vb.cpus = 4
   end
 
   config.vm.define "RobrodriS" do |server|
@@ -22,6 +22,10 @@ Vagrant.configure("2") do |config|
     server.vm.provider "virtualbox" do |vb|
       vb.name = "RobrodriS"
     end
+
+    server.vm.network "forwarded_port", guest: 8888, host: 8888 # Load Balancer
+    server.vm.network "forwarded_port", guest: 8081, host: 8081 # GitLab
+    server.vm.network "forwarded_port", guest: 8082, host: 8082 # ArgoCD
 
     server.vm.provision "shell", path: "scripts/server.sh"
   end

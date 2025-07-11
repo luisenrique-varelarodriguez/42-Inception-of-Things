@@ -7,10 +7,28 @@ global:
     tls:
       enabled: false
 
+sidekiq:
+  replicas:
+    all: 1
+webservice:
+  replicas:
+    default: 1
+gitlab-shell:
+  replicas: 1
+registry:
+  replicas: 1
+kas:
+  replicas: 1
+
 certmanager:
   install: false
 nginx-ingress:
-  enabled: true
-
+  enabled: false
 gitlab-runner:
+  install: false
+prometheus:
+  install: false
+grafana:
+  install: false
+minio:
   install: false

@@ -27,13 +27,25 @@ k3d cluster create --agents 3 core -p "8080:8888@loadbalancer" # expose the load
 kubectl create namespace dev
 kubectl create namespace argocd
 
-# Create deployments
-# argocd 
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# Install Git
+echo "Installing Git"
+apk add git
+
+# Install Helm
+echo "Installing Helm"
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Install ArgoCD with Helm
+echo "Installing ArgoCD with Helm"
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm upgrade --install argocd argo/argo-cd \
+    --namespace argocd \
+    --timeout 600s
 
 # Wait for ArgoCD pods to be ready
 echo "Waiting for ArgoCD pods to be ready..."
-kubectl wait --for=condition=Ready pods --all -n argocd --timeout=600s
+kubectl wait --for=condition=Ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=600s
 
 # Set pass for argocd dashboard pass -> holasoyadmin
 sudo kubectl -n argocd patch secret argocd-secret \
@@ -48,23 +60,13 @@ kubectl apply -f /vagrant_shared/deployments/argo.yml
 # For manual app deployment
 # kubectl apply -n dev -f /vagrant_shared/app.yml
 
-# Install Git
-echo "Installing Git"
-apk add git
-
-# Install Helm
-echo "Installing Helm"
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
 # Create GitLab namespace
 kubectl create namespace gitlab
 
-# Add GitLab Helm repo
-helm repo add gitlab https://charts.gitlab.io/
-helm repo update
-
 # Install GitLab using Helm
 echo "Installing GitLab"
+helm repo add gitlab https://charts.gitlab.io/
+helm repo update
 helm upgrade --install gitlab gitlab/gitlab \
     --namespace gitlab \
     --timeout 600s \
