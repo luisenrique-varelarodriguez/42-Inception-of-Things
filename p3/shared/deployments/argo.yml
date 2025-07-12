@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/RobertoRobrodri/Inception-of-Things.git'
-    targetRevision: HEAD
+    targetRevision: lvarela/iot # TODO: Change to HEAD branch
     path: p3/shared/deployments/app
   destination:
     server: 'https://kubernetes.default.svc'
