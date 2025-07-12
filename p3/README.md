@@ -42,7 +42,6 @@ The provisioning process is fully automated. When you run `vagrant up`, the VM i
 
 - The `shared` folder is mounted as `/vagrant_shared` in the VM.
 - You can customize the deployments, services, and ingress rules in the `shared/` directory.
-- *(Add any other notes or advanced usage instructions here)*
 
 ---
 
