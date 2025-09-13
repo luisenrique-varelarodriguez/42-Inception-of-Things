@@ -29,7 +29,7 @@ if [ ! -x /usr/local/bin/kubectl ]; then
 fi
 
 # k3d
-K3D_VER="v5.6.3"
+K3D_VER="v5.8.3"
 if [ ! -x /usr/local/bin/k3d ]; then
   curl -L -o /usr/local/bin/k3d "https://github.com/k3d-io/k3d/releases/download/${K3D_VER}/k3d-linux-amd64"
   chmod +x /usr/local/bin/k3d
