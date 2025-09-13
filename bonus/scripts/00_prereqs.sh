@@ -22,7 +22,7 @@ if id vagrant >/dev/null 2>&1; then
 fi
 
 # kubectl
-KUBECTL_VER="v1.29.6"
+KUBECTL_VER="v1.33.5"
 if [ ! -x /usr/local/bin/kubectl ]; then
   curl -L -o /usr/local/bin/kubectl "https://dl.k8s.io/release/${KUBECTL_VER}/bin/linux/amd64/kubectl"
   chmod +x /usr/local/bin/kubectl
