@@ -28,9 +28,7 @@ helm upgrade --install gitlab gitlab/gitlab \
   --set global.pod.restartPolicy=Always \
   --set gitlab.webservice.deployment.restartPolicy=Always \
   --set gitlab.sidekiq.deployment.restartPolicy=Always \
-  --set gitlab.gitaly.deployment.restartPolicy=Always \
-  --wait \
-  --timeout 1800s
+  --set gitlab.gitaly.deployment.restartPolicy=Always
 
 # Esperar webservice listo
 echo " - esperando GitLab webservice…"
