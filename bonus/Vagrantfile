@@ -8,8 +8,8 @@ Vagrant.configure("2") do |config|
     # Recursos
     server.vm.provider "virtualbox" do |vb|
       vb.name = "lvarela"
-      vb.memory = 6000
-      vb.cpus = 4
+      vb.memory = 10000
+      vb.cpus = 6
     end
 
     # Red y hostname
@@ -24,6 +24,7 @@ Vagrant.configure("2") do |config|
     # Acceso desde host (127.0.0.1) -> a VM -> (port-forward) -> Services del cluster
     server.vm.network "forwarded_port", guest: 8081, host: 18081, host_ip: "127.0.0.1" # Argo CD
     server.vm.network "forwarded_port", guest: 8082, host: 18082, host_ip: "127.0.0.1" # GitLab
+    server.vm.network "forwarded_port", guest: 8083, host: 18083, host_ip: "127.0.0.1" # App
 
     # Provisioning
     server.vm.provision "shell", inline: <<-SHELL
@@ -32,7 +33,7 @@ Vagrant.configure("2") do |config|
       cd /vagrant
       chmod +x scripts/*.sh
 
-      scripts/run_all.sh
+      scripts/automatic_run.sh
     SHELL
   end
 end

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wil42
+spec:
+  selector:
+    matchLabels:
+      app: wil42
+  template:
+    metadata:
+      labels:
+        app: wil42
+    spec:
+      containers:
+      - name: wil42
+        image: "wil42/playground:{{ .Values.image.tag }}"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888

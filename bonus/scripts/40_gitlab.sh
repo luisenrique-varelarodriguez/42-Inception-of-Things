@@ -18,10 +18,9 @@ sleep 30
 helm upgrade --install gitlab gitlab/gitlab \
   -n gitlab \
   -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
-  --set global.hosts.domain=k3d.gitlab.com \
+  --set global.hosts.domain=localhost \
   --set global.hosts.externalIP=0.0.0.0 \
   --set global.hosts.https=false \
-  --set global.initialRootPassword.password=iot42. \
   --set gitlab.migrations.restartPolicy=OnFailure \
   --set gitlab.migrations.backoffLimit=100000 \
   --set global.deployment.restartPolicy=Always \
@@ -36,5 +35,5 @@ kubectl -n gitlab rollout status deploy/gitlab-webservice-default --timeout=1200
 
 # Credenciales y acceso
 echo " - Usuario: root"
-echo " - Password: iot42."
+echo " - Password: $(kubectl get secret gitlab-gitlab-initial-root-password -n gitlab -o jsonpath="{.data.password}" | base64 -d && echo)"
 echo " - URL: http://gitlab.localhost"
