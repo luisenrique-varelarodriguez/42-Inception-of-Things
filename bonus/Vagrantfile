@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.define "lvarela" do |server|
+  config.vm.define "LvarelaS" do |server|
     server.vm.box = "generic/alpine318"
 
     # Carpeta compartida
@@ -7,18 +7,18 @@ Vagrant.configure("2") do |config|
     
     # Recursos
     server.vm.provider "virtualbox" do |vb|
-      vb.name = "lvarela"
+      vb.name = "LvarelaS"
       vb.memory = 10000
       vb.cpus = 6
     end
 
     # Red y hostname
-    server.vm.hostname = "lvarela"
+    server.vm.hostname = "LvarelaS"
     server.vm.network "private_network", ip: "192.168.56.110"
   
     # Nombre en VirtualBox
     server.vm.provider "virtualbox" do |vb|
-      vb.name = "lvarela"
+      vb.name = "LvarelaS"
     end
 
     # Acceso desde host (127.0.0.1) -> a VM -> (port-forward) -> Services del cluster
