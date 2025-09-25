@@ -10,8 +10,8 @@ kubectl create namespace argocd 2>/dev/null || true
 helm repo add argo https://argoproj.github.io/argo-helm || true
 helm repo update
 
-# Valores con Ingress traefik
-VALUES="/vagrant/confs/helm-values/argocd-values.yaml"
+# Values con Ingress traefik
+VALUES="/shared/confs/helm-values/argocd-values.yaml"
 
 helm upgrade --install argocd argo/argo-cd \
   -n argocd \

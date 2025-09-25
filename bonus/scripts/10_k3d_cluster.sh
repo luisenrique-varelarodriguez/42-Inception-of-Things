@@ -9,8 +9,7 @@ if k3d cluster list | grep -q "^${CLUSTER}\b"; then
   echo " - cluster ${CLUSTER} ya existe"
 else
   k3d cluster create "${CLUSTER}" \
-    --k3s-arg "--disable=servicelb@server:0" \
-    --port "8088:8088@loadbalancer"
+    --k3s-arg "--disable=servicelb@server:0"
 fi
 
 # Esperar a que el API responda

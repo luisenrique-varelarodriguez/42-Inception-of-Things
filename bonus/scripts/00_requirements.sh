@@ -25,7 +25,7 @@ fi
 if [ ! -x /usr/local/bin/kubectl ]; then
   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
   install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-  # Añadir alias k para kubectl en ~/.profile del usuario actual
+  # Añadimos el alias k para kubectl en ~/.profile del usuario actual
   echo "alias k='kubectl'" >> "$HOME/.profile"
   chown "$USER":"$USER" "$HOME/.profile"
 fi

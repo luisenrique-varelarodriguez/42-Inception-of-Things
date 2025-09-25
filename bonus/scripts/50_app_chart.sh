@@ -3,8 +3,8 @@ set -euo pipefail
 
 echo "[50] Validando chart y aplicando Application ArgoCD…"
 
-CHART_DIR="/vagrant/confs/charts/wil42"
-APP_FILE="/vagrant/confs/argocd/wil42-app.yaml"
+CHART_DIR="/shared/confs/charts/wil42"
+APP_FILE="/shared/confs/argocd/wil42-app.yaml"
 
 # Comprobación de archivos
 [ -f "${CHART_DIR}/Chart.yaml" ] || { echo "Falta ${CHART_DIR}/Chart.yaml"; exit 1; }
