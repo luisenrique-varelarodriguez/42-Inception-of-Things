@@ -1,29 +1,65 @@
 #!/bin/sh
 
-echo "[60] Configurando port-forwards con auto-reconexión..."
+# Load logging functions
+. "$(dirname "$0")/logging.sh"
 
-# Matar port-forwards anteriores si existen
+log_header "60" "Configuring port-forwards loops"
+
+# Kill previous port-forwards if they exist
+log_info "Cleaning existing port-forwards"
 pkill kubectl >/dev/null 2>&1 || true
+log_success "Previous port-forwards terminated"
 
-# Port-forward con reintentos automáticos en bucle
-(while true; do kubectl port-forward svc/argocd-server -n argocd --address 0.0.0.0 8081:80; sleep 2; done) &
-(while true; do kubectl port-forward svc/gitlab-webservice-default -n gitlab --address 0.0.0.0 8082:8181; sleep 2; done) &
+# Port-forward with automatic retries in loop
+log_info "Starting port-forwards loops"
 
-# Para la app, esperar a que exista el service
+(while true; do 
+  kubectl port-forward svc/argocd-server -n argocd --address 0.0.0.0 8081:80 >/dev/null 2>&1
+  sleep 2
+done) &
+
+(while true; do 
+  kubectl port-forward svc/gitlab-webservice-default -n gitlab --address 0.0.0.0 8082:8181 >/dev/null 2>&1
+  sleep 2
+done) &
+
 (while true; do 
     if kubectl get svc wil42-service -n dev >/dev/null 2>&1; then
-        kubectl port-forward svc/wil42-service -n dev --address 0.0.0.0 8083:8888
+        kubectl port-forward svc/wil42-service -n dev --address 0.0.0.0 8083:8888 >/dev/null 2>&1
     fi
     sleep 5
 done) &
 
+log_success "Port-forwards loops configured successfully"
+
 sleep 2
 
-echo ""
-echo "Port-forwards configurados con auto-reconexión:"
-echo "   - ArgoCD:  http://localhost:18081"
-echo "   - GitLab:  http://localhost:18082"  
-echo "   - App:     http://localhost:18083"
-echo ""
-echo "Se reconectarán automáticamente si se pierden."
-echo "Para parar: pkill kubectl"
+# Credentials and access
+GITLAB_PASSWORD=$(kubectl get secret gitlab-gitlab-initial-root-password -n gitlab -o jsonpath="{.data.password}" | base64 -d 2>/dev/null || echo "ERROR_GETTING_PASSWORD")
+
+echo
+echo "--------------------------------------------"
+echo "           ArgoCD Access Details            "
+echo "--------------------------------------------"
+echo "  External URL (host):  http://localhost:18081"
+echo "  Username:             admin"
+echo "  Password:             holasoyadmin"
+echo "--------------------------------------------"
+echo
+echo "--------------------------------------------"
+echo "           GitLab Access Details            "
+echo "--------------------------------------------"
+echo "  External URL (host):  http://localhost:18082"
+echo "  Username:             root"
+echo "  Password:             $GITLAB_PASSWORD"
+echo "--------------------------------------------"
+echo
+echo "--------------------------------------------"
+echo "           App wil42 Access Details         "
+echo "--------------------------------------------"
+echo "  External URL (host):  http://localhost:18083"
+echo "--------------------------------------------"
+echo
+
+log_info "Port-forwards will automatically reconnect if lost"
+log_warning "To stop all port-forwards: pkill kubectl"
