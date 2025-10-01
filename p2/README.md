@@ -42,3 +42,14 @@ The provisioning process is fully automated. When you run `vagrant up`, the VM i
 - The `shared` folder is mounted as `/vagrant_shared` in the VM.
 - The Ingress resource uses the `traefik` ingress class and routes traffic based on the host.
 - You can customize the deployments, services, and ingress rules in the `shared/` directory.
+
+### Accessing apps from the host
+If you do not want to edit your `/etc/hosts` file, you can use curl to specify the Host header for each app:
+
+```sh
+curl -H "Host: app1.com" http://192.168.56.110/
+curl -H "Host: app2.com" http://192.168.56.110/
+curl -H "Host: app3.com" http://192.168.56.110/
+```
+
+This will route your request to the correct app through Traefik Ingress.
