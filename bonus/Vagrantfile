@@ -2,20 +2,21 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+  # Base box
+  server.vm.box = "generic/alpine318"
+  
+  # Shared folder
+  server.vm.synced_folder ".", "/shared", type: "virtualbox"
+  
+  # Resources
+  server.vm.provider "virtualbox" do |vb|
+    vb.name = "LvarelaS"
+    vb.memory = 10000
+    vb.cpus = 6
+  end
+  
   config.vm.define "LvarelaS" do |server|
-    server.vm.box = "generic/alpine318"
-
-    # Shared folder
-    server.vm.synced_folder ".", "/shared", type: "virtualbox"
-    
-    # Resources
-    server.vm.provider "virtualbox" do |vb|
-      vb.name = "LvarelaS"
-      vb.memory = 10000
-      vb.cpus = 6
-    end
-
-    # Network and hostname
+    # Hostname and IP
     server.vm.hostname = "LvarelaS"
     server.vm.network "private_network", ip: "192.168.56.110"
   
