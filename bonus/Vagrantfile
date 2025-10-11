@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Base box
+  server.vm.box = "generic/alpine318"
+  
+  # Shared folder
+  server.vm.synced_folder ".", "/shared", type: "virtualbox"
+  
+  # Resources
+  server.vm.provider "virtualbox" do |vb|
+    vb.name = "LvarelaS"
+    vb.memory = 10000
+    vb.cpus = 6
+  end
+  
+  config.vm.define "LvarelaS" do |server|
+    # Hostname and IP
+    server.vm.hostname = "LvarelaS"
+    server.vm.network "private_network", ip: "192.168.56.110"
+  
+    # Name in VirtualBox
+    server.vm.provider "virtualbox" do |vb|
+      vb.name = "LvarelaS"
+    end
+
+    # Access from host (127.0.0.1) -> to VM -> (port-forward) -> Cluster services
+    server.vm.network "forwarded_port", guest: 8081, host: 18081, host_ip: "127.0.0.1" # Argo CD
+    server.vm.network "forwarded_port", guest: 8082, host: 18082, host_ip: "127.0.0.1" # GitLab
+    server.vm.network "forwarded_port", guest: 8083, host: 18083, host_ip: "127.0.0.1" # App
+
+    # Provisioning
+    server.vm.provision "shell", inline: <<-SHELL
+      set -euo pipefail
+
+      cd /shared
+      chmod +x scripts/*.sh
+
+      scripts/run.sh
+    SHELL
+  end
+end

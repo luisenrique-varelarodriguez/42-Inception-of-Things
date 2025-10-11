@@ -44,5 +44,9 @@ sudo kubectl -n argocd patch secret argocd-secret \
 # Apply ArgoCD app config
 kubectl apply -f /vagrant_shared/deployments/argo.yml
 
-# For manual app deployment
-# kubectl apply -n dev -f /vagrant_shared/app.yml
+# ArgoCD will automatically deploy the app from the GitHub repository
+# The app includes: deployment, service, and ingress
+echo "Waiting for ArgoCD to sync the application..."
+kubectl wait --for=condition=Ready pods -l app=app -n dev --timeout=600s
+
+echo "Setup complete! Access the app at http://app.local:8888"
