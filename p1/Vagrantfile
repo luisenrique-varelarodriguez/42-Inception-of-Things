@@ -2,38 +2,55 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
+  # COMMON CONFIG
+  # Base box
   config.vm.box = "generic/alpine318"
-  config.vm.synced_folder "./shared", "/vagrant_shared", create: true 
 
+  # Shared folder
+  config.vm.synced_folder "./shared", "/vshared", create: true
+
+  # Trigger to remove shared folder on destroy
+  config.trigger.after :destroy do |trigger|
+    trigger.name = "Cleanup shared directory"
+    trigger.info = "Removing shared directory..."
+    trigger.run = {inline: "rm -rf shared"}
+  end
+
+  # Resources
   config.vm.provider "virtualbox" do |vb|
-    vb.gui = false      # Display the VirtualBox GUI when booting the machine
-    vb.memory = "2048"  # 1024 is not enough
+    vb.gui = false
+    vb.memory = "2048"
     vb.cpus = 1
   end
 
+  # SPECIFIC CONFIG
+  # Server
   config.vm.define "RobrodriS" do |server|
-    server.vm.network "private_network", ip: "192.168.56.110"
+    # Hostname and IP
     server.vm.hostname = "RobrodriS"
+    server.vm.network "private_network", ip: "192.168.56.110"
 
+    # Name in VirtualBox
     server.vm.provider "virtualbox" do |vb|
       vb.name = "RobrodriS"
     end
 
+    # Provisioning
     server.vm.provision "shell", path: "scripts/server.sh"
   end
 
+  # Worker
   config.vm.define "RobrodriSW" do |serverWorker|
-    serverWorker.vm.network "private_network", ip: "192.168.56.111"
+    # Hostname and IP
     serverWorker.vm.hostname = "RobrodriSW"
+    serverWorker.vm.network "private_network", ip: "192.168.56.111"
 
+    # Name in VirtualBox
     serverWorker.vm.provider "virtualbox" do |vb|
       vb.name = "RobrodriSW"
     end
 
+    # Provisioning
     serverWorker.vm.provision "shell", path: "scripts/worker.sh"
   end
 end

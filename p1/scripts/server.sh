@@ -25,4 +25,4 @@ done
 
 # Copy server token to shared folder
 chmod 644 /var/lib/rancher/k3s/server/token
-cp /var/lib/rancher/k3s/server/token /vagrant_shared
+cp /var/lib/rancher/k3s/server/token /vshared

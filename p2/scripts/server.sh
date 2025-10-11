@@ -12,17 +12,17 @@ done
 echo "K3S is ready!"
 
 # Apply deployments
-kubectl apply -f /vagrant_shared/deployments/app1.yml
-kubectl apply -f /vagrant_shared/deployments/app2.yml
-kubectl apply -f /vagrant_shared/deployments/app3.yml
+kubectl apply -f /vshared/deployments/app1.yml
+kubectl apply -f /vshared/deployments/app2.yml
+kubectl apply -f /vshared/deployments/app3.yml
 
 # Wait for resources to be available
 kubectl wait --for=condition=available --timeout=600s deployment --all
 
 # Apply services
-kubectl apply -f /vagrant_shared/services/app1.yml
-kubectl apply -f /vagrant_shared/services/app2.yml
-kubectl apply -f /vagrant_shared/services/app3.yml
+kubectl apply -f /vshared/services/app1.yml
+kubectl apply -f /vshared/services/app2.yml
+kubectl apply -f /vshared/services/app3.yml
 
 # Apply ingress
-kubectl apply -f /vagrant_shared/ingress/ingress.yml
+kubectl apply -f /vshared/ingress/ingress.yml
