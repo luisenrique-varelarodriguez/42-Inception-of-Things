@@ -4,6 +4,7 @@ metadata:
   name: app
   namespace: dev
 spec:
+  replicas: 5
   selector:
     matchLabels:
       app: app
@@ -12,7 +13,6 @@ spec:
       labels:
         app: app
     spec:
-      replicas: 5
       containers:
       - name: app
         image: wil42/playground:v1
