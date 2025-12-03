@@ -12,8 +12,9 @@ spec:
       labels:
         app: app
     spec:
+      replicas: 5
       containers:
       - name: app
-        image: wil42/playground:v2
+        image: wil42/playground:v1
         ports:
         - containerPort: 8888
