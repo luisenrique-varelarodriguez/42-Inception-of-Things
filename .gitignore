@@ -1,1 +1,75 @@
-*/.vagrant
+# Vagrant
+.vagrant/
+*.vagrant
+.vagrant.d/
+
+# VirtualBox
+*.vbox
+*.vbox-prev
+*.vdi
+
+# Shared folders
+**/shared/token
+p1/shared/
+p2/shared/
+p3/shared/
+
+# K3s/K3d
+kubeconfig
+*.kubeconfig
+k3s.yaml
+
+# Logs
+*.log
+*.logs
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Terraform (if used)
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Helm
+charts/*.tgz
+
+# ArgoCD
+argocd-secret.yaml
+
+# SSH keys
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+*.pub
+
+# Credentials
+credentials.txt
+passwords.txt
+secrets.yaml
+
